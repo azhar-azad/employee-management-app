@@ -50,9 +50,7 @@ class ListEmployeeComponent extends Component {
             }
             </tbody>
           </table>
-          <!-- row end -->
         </div>
-        <!-- div end -->
       </div>
     );
   }
