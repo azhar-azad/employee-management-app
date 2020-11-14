@@ -3,10 +3,7 @@ package com.azad.projects.empmgmtapi.controllers;
 import com.azad.projects.empmgmtapi.entities.Employee;
 import com.azad.projects.empmgmtapi.repos.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +23,11 @@ public class EmployeeController {
     @GetMapping(path = "/employees")
     public List<Employee> getAll() {
         return employeeRepository.findAll();
+    }
+
+    // add employee
+    @PostMapping(path = "/employees")
+    public Employee createEmployee(@RequestBody Employee employee) {
+        return employeeRepository.save(employee);
     }
 }
