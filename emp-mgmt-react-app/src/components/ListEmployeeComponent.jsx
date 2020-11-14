@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EmployeeApiService from "../services/EmployeeApiService";
 
 class ListEmployeeComponent extends Component {
   
@@ -8,6 +9,14 @@ class ListEmployeeComponent extends Component {
     this.state = {
       employees: []
     }
+  }
+  
+  componentDidMount() {
+    EmployeeApiService.getEmployees().then((response) => {
+      this.setState({
+        employees: response.data
+      })
+    });
   }
   
   render() {
