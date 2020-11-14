@@ -23,8 +23,11 @@ class ListEmployeeComponent extends Component {
     return (
       <div>
         <h2 className="text-center">Employees List</h2>
+        
         <div className="row">
+          
           <table className="table table-striped table-bordered">
+            
             <thead>
               <tr>
                 <th>Employee First Name</th>
@@ -33,6 +36,7 @@ class ListEmployeeComponent extends Component {
                 <th>Actions</th>
               </tr>
             </thead>
+            
             <tbody>
             {
               this.state.employees.map(
@@ -46,7 +50,9 @@ class ListEmployeeComponent extends Component {
             }
             </tbody>
           </table>
+          <!-- row end -->
         </div>
+        <!-- div end -->
       </div>
     );
   }
