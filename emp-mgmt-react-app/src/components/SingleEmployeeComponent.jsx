@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import EmployeeApiService from "../services/EmployeeApiService";
 
-class CreateEmployeeComponent extends Component {
+class SingleEmployeeComponent extends Component {
   
   constructor(props) {
     super(props);
     
     this.state = {
+      // step 2
+      id: this.props.match.params.id,
       firstName: '',
       lastName: '',
       email: ''
@@ -15,7 +17,7 @@ class CreateEmployeeComponent extends Component {
     this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
     this.changeLastNameHandler = this.changeLastNameHandler.bind(this);
     this.changeEmailHandler = this.changeEmailHandler.bind(this);
-    this.saveEmployee = this.saveEmployee.bind(this);
+    this.saveOrUpdateEmployee = this.saveOrUpdateEmployee.bind(this);
   }
   
   changeFirstNameHandler = (event) => {
@@ -30,7 +32,7 @@ class CreateEmployeeComponent extends Component {
     this.setState({ email: event.target.value });
   };
   
-  saveEmployee = (event) => {
+  saveOrUpdateEmployee = (event) => {
     event.preventDefault();
     
     if (this.state.firstName === '') {
@@ -50,9 +52,19 @@ class CreateEmployeeComponent extends Component {
       };
       console.log('employee => ' + JSON.stringify(employee));
       
-      EmployeeApiService.createEmployee(employee).then((response) => {
-        this.props.history.push('/employees');
-      });
+      // step 5
+      if (this.state.id === '_add') {
+        // create a new Employee and save
+        EmployeeApiService.createEmployee(employee).then((response) => {
+          this.props.history.push('/employees');
+        });
+      }
+      else {
+        // update an existing Employee and save
+        EmployeeApiService.updateEmployee(employee, this.state.id).then((response) => {
+          this.props.history.push('/employees');
+        });
+      }
     }
   };
   
@@ -60,13 +72,43 @@ class CreateEmployeeComponent extends Component {
     this.props.history.push('/employees');
   };
   
+  getTitle() {
+    if (this.state.id === '_add') {
+      return 'Add Employee';
+    }
+    else {
+      return 'Update Employee';
+    }
+  }
+  
+  // step 3
+  componentDidMount() {
+    console.log('id: ' + this.state.id);
+    // step 4
+    if (this.state.id === '_add') {
+      // create a new Employee, nothing to load.
+      // so, do nothing
+    }
+    else {
+      // update an existing Employee, load his/her attributes.
+      EmployeeApiService.getEmployeeById(this.state.id).then((response) => {
+        let employee = response.data;
+        this.setState({
+          firstName: employee.firstName,
+          lastName: employee.lastName,
+          email: employee.email
+        });
+      });
+    }
+  }
+  
   render() {
     return (
       <div>
         <div className="container">
           <div className="row">
             <div className="card col-md-6 offset-md-3 offset-md-3">
-              <h3 className="text-center">Add Employee</h3>
+              <h3 className="text-center">{ this.getTitle() }</h3>
               <div className="card-body">
                 <form>
                   <div className="form-group">
@@ -86,7 +128,7 @@ class CreateEmployeeComponent extends Component {
                   </div>
                   
                   <button className="btn btn-success"
-                          onClick={this.saveEmployee}>Save</button>
+                          onClick={this.saveOrUpdateEmployee}>Save</button>
                   <button className="btn btn-danger"
                           onClick={this.cancel.bind(this)}
                           style={{marginLeft: "10px"}}>Cancel</button>
@@ -100,4 +142,4 @@ class CreateEmployeeComponent extends Component {
   }
 }
 
-export default CreateEmployeeComponent;
+export default SingleEmployeeComponent;

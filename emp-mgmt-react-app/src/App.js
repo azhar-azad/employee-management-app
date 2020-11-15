@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ListEmployeeComponent from "./components/ListEmployeeComponent";
 import HeaderComponent from "./components/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
-import CreateEmployeeComponent from "./components/CreateEmployeeComponent";
+import SingleEmployeeComponent from "./components/SingleEmployeeComponent";
 import UpdateEmployeeComponent from "./components/UpdateEmployeeComponent";
 
 function App() {
@@ -15,10 +15,11 @@ function App() {
         
         <div className="container">
           <Switch>
-            <Route path="/" exact component={ ListEmployeeComponent }></Route>
-            <Route path="/employees" exact component={ ListEmployeeComponent }></Route>
-            <Route path="/add-employee" exact component={ CreateEmployeeComponent }></Route>
-            <Route path="/update-employee/:id" exact component={ UpdateEmployeeComponent }></Route>
+            <Route path="/" exact component={ ListEmployeeComponent } />
+            <Route path="/employees" exact component={ ListEmployeeComponent } />
+            {/*step 1*/}
+            <Route path="/employee/:id" exact component={ SingleEmployeeComponent } />
+            {/*<Route path="/update-employee/:id" exact component={ UpdateEmployeeComponent } />*/}
           </Switch>
         </div>
         
