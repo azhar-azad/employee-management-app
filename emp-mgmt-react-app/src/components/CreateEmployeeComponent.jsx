@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EmployeeApiService from "../services/EmployeeApiService";
 
 class CreateEmployeeComponent extends Component {
   
@@ -48,6 +49,10 @@ class CreateEmployeeComponent extends Component {
         email: this.state.email
       };
       console.log('employee => ' + JSON.stringify(employee));
+      
+      EmployeeApiService.createEmployee(employee).then((response) => {
+        this.props.history.push('/employees');
+      });
     }
   };
   
