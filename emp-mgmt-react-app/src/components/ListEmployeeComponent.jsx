@@ -12,6 +12,7 @@ class ListEmployeeComponent extends Component {
   
     this.saveEmployee = this.saveEmployee.bind(this);
     this.updateEmployee = this.updateEmployee.bind(this);
+    this.deleteEmployee = this.deleteEmployee.bind(this);
   }
   
   saveEmployee() {
@@ -20,6 +21,12 @@ class ListEmployeeComponent extends Component {
   
   updateEmployee(id) {
     this.props.history.push(`/employee/${id}`);
+  }
+  
+  deleteEmployee(id) {
+    EmployeeApiService.deleteEmployee(id).then((response) => {
+      this.setState({ employees: this.state.employees.filter(employee => employee.id !== id) });
+    });
   }
   
   componentDidMount() {
@@ -63,6 +70,8 @@ class ListEmployeeComponent extends Component {
                     <td>
                       <button className="btn btn-info"
                               onClick={ () => {this.updateEmployee(employee.id)} }>Update</button>
+                      <button className="btn btn-danger" style={{marginLeft: "10px"}}
+                              onClick={ () => {this.deleteEmployee(employee.id)} }>Delete</button>
                     </td>
                   </tr>
               )
