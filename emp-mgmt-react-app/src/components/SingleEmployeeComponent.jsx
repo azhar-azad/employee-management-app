@@ -83,7 +83,6 @@ class SingleEmployeeComponent extends Component {
   
   // step 3
   componentDidMount() {
-    console.log('id: ' + this.state.id);
     // step 4
     if (this.state.id === '_add') {
       // create a new Employee, nothing to load.

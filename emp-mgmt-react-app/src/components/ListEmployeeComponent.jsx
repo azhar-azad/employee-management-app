@@ -13,6 +13,7 @@ class ListEmployeeComponent extends Component {
     this.saveEmployee = this.saveEmployee.bind(this);
     this.updateEmployee = this.updateEmployee.bind(this);
     this.deleteEmployee = this.deleteEmployee.bind(this);
+    this.viewEmployee = this.viewEmployee.bind(this);
   }
   
   saveEmployee() {
@@ -29,6 +30,10 @@ class ListEmployeeComponent extends Component {
     });
   }
   
+  viewEmployee(id) {
+    this.props.history.push(`/view-employee/${id}`);
+  }
+  
   componentDidMount() {
     EmployeeApiService.getEmployees().then((response) => {
       this.setState({
@@ -43,18 +48,19 @@ class ListEmployeeComponent extends Component {
         <h2 className="text-center">Employees List</h2>
         
         <div className="row">
-          <button className="btn btn-primary" onClick={ this.saveEmployee }>Add Employee</button>
+          <button className="btn btn-primary" style={{marginBottom: "10px"}}
+                  onClick={ this.saveEmployee }>Add Employee</button>
         </div>
         
         <div className="row">
           
           <table className="table table-striped table-bordered">
             
-            <thead>
+            <thead className="thead-dark">
               <tr>
-                <th>Employee First Name</th>
-                <th>Employee Last Name</th>
-                <th>Employee Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -72,6 +78,8 @@ class ListEmployeeComponent extends Component {
                               onClick={ () => {this.updateEmployee(employee.id)} }>Update</button>
                       <button className="btn btn-danger" style={{marginLeft: "10px"}}
                               onClick={ () => {this.deleteEmployee(employee.id)} }>Delete</button>
+                      <button className="btn btn-dark" style={{marginLeft: "10px"}}
+                              onClick={ () => {this.viewEmployee(employee.id)} }>View</button>
                     </td>
                   </tr>
               )
