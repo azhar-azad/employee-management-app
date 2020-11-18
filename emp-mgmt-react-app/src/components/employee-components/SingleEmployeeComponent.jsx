@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
-import EmployeeApiService from "../services/EmployeeApiService";
+import EmployeeApiService from "../../services/EmployeeApiService";
 
-class UpdateEmployeeComponent extends Component {
+class SingleEmployeeComponent extends Component {
   
   constructor(props) {
     super(props);
     
     this.state = {
+      // step 2
       id: this.props.match.params.id,
       firstName: '',
       lastName: '',
       email: ''
     };
-  
+    
     this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
     this.changeLastNameHandler = this.changeLastNameHandler.bind(this);
     this.changeEmailHandler = this.changeEmailHandler.bind(this);
-    this.updateEmployee = this.updateEmployee.bind(this);
+    this.saveOrUpdateEmployee = this.saveOrUpdateEmployee.bind(this);
   }
   
   changeFirstNameHandler = (event) => {
@@ -31,7 +32,7 @@ class UpdateEmployeeComponent extends Component {
     this.setState({ email: event.target.value });
   };
   
-  updateEmployee = (event) => {
+  saveOrUpdateEmployee = (event) => {
     event.preventDefault();
     
     if (this.state.firstName === '') {
@@ -51,9 +52,19 @@ class UpdateEmployeeComponent extends Component {
       };
       console.log('employee => ' + JSON.stringify(employee));
       
-      EmployeeApiService.updateEmployee(employee, this.state.id).then((response) => {
-        this.props.history.push('/employees');
-      });
+      // step 5
+      if (this.state.id === '_add') {
+        // create a new Employee and save
+        EmployeeApiService.createEmployee(employee).then((response) => {
+          this.props.history.push('/employees');
+        });
+      }
+      else {
+        // update an existing Employee and save
+        EmployeeApiService.updateEmployee(employee, this.state.id).then((response) => {
+          this.props.history.push('/employees');
+        });
+      }
     }
   };
   
@@ -61,15 +72,33 @@ class UpdateEmployeeComponent extends Component {
     this.props.history.push('/employees');
   };
   
+  getTitle() {
+    if (this.state.id === '_add') {
+      return 'Add Employee';
+    }
+    else {
+      return 'Update Employee';
+    }
+  }
+  
+  // step 3
   componentDidMount() {
-    EmployeeApiService.getEmployeeById(this.state.id).then((response) => {
-      let employee = response.data;
-      this.setState({
-        firstName: employee.firstName,
-        lastName: employee.lastName,
-        email: employee.email
+    // step 4
+    if (this.state.id === '_add') {
+      // create a new Employee, nothing to load.
+      // so, do nothing
+    }
+    else {
+      // update an existing Employee, load his/her attributes.
+      EmployeeApiService.getEmployeeById(this.state.id).then((response) => {
+        let employee = response.data;
+        this.setState({
+          firstName: employee.firstName,
+          lastName: employee.lastName,
+          email: employee.email
+        });
       });
-    });
+    }
   }
   
   render() {
@@ -78,7 +107,7 @@ class UpdateEmployeeComponent extends Component {
         <div className="container">
           <div className="row">
             <div className="card col-md-6 offset-md-3 offset-md-3">
-              <h3 className="text-center">Update Employee</h3>
+              <h3 className="text-center">{ this.getTitle() }</h3>
               <div className="card-body">
                 <form>
                   <div className="form-group">
@@ -96,9 +125,9 @@ class UpdateEmployeeComponent extends Component {
                     <input className="form-control" name="lastName" placeholder="Email Address"
                            value={this.state.email} onChange={this.changeEmailHandler}/>
                   </div>
-            
+                  
                   <button className="btn btn-success"
-                          onClick={this.updateEmployee}>Update</button>
+                          onClick={this.saveOrUpdateEmployee}>Save</button>
                   <button className="btn btn-danger"
                           onClick={this.cancel.bind(this)}
                           style={{marginLeft: "10px"}}>Cancel</button>
@@ -112,4 +141,4 @@ class UpdateEmployeeComponent extends Component {
   }
 }
 
-export default UpdateEmployeeComponent;
+export default SingleEmployeeComponent;
