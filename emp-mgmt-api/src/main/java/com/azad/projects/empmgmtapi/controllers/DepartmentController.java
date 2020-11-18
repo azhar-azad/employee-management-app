@@ -5,6 +5,8 @@ import com.azad.projects.empmgmtapi.repos.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api/v1/")
 public class DepartmentController {
@@ -25,5 +27,11 @@ public class DepartmentController {
     @PostMapping(path = "/departments")
     public Department createDepartment(@RequestBody Department department) {
         return departmentRepository.save(department);
+    }
+
+    // get all department
+    @GetMapping(path = "/departments")
+    public List<Department> getAll() {
+        return departmentRepository.findAll();
     }
 }
