@@ -1,8 +1,10 @@
 package com.azad.projects.empmgmtapi.controllers;
 
 import com.azad.projects.empmgmtapi.entities.Department;
+import com.azad.projects.empmgmtapi.exceptions.ResourceNotFoundException;
 import com.azad.projects.empmgmtapi.repos.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +35,14 @@ public class DepartmentController {
     @GetMapping(path = "/departments")
     public List<Department> getAll() {
         return departmentRepository.findAll();
+    }
+
+    // get department by id
+    @GetMapping(path = "/departments/{id}")
+    public ResponseEntity<Department> getDepartmentById(@PathVariable long id) {
+        Department department = departmentRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Department not found with id: " + id));
+
+        return ResponseEntity.ok(department);
     }
 }
