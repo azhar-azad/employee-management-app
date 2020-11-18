@@ -8,6 +8,7 @@ import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -54,8 +55,22 @@ public class DepartmentController {
                 new ResourceNotFoundException("Department not found with id: " + id));
 
         department.setName(departmentDetails.getName());
-        departmentRepository.save(department);\\
+        departmentRepository.save(department);
 
         return ResponseEntity.ok(department);
+    }
+
+    // delete department by id
+    @DeleteMapping(path = "/departments/{id}")
+    public ResponseEntity<HashMap<String, Boolean>> deleteDepartment(@PathVariable long id) {
+        Department department = departmentRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Department not found with id: " + id));
+
+        departmentRepository.delete(department);
+
+        HashMap<String, Boolean> returnValue = new HashMap<>();
+        returnValue.put("DELETED", Boolean.TRUE);
+
+        return ResponseEntity.ok(returnValue);
     }
 }
