@@ -4,6 +4,7 @@ import com.azad.projects.empmgmtapi.entities.Department;
 import com.azad.projects.empmgmtapi.exceptions.ResourceNotFoundException;
 import com.azad.projects.empmgmtapi.repos.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,18 @@ public class DepartmentController {
     public ResponseEntity<Department> getDepartmentById(@PathVariable long id) {
         Department department = departmentRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Department not found with id: " + id));
+
+        return ResponseEntity.ok(department);
+    }
+
+    // update department by id
+    @PutMapping(path = "/departments/{id}")
+    public ResponseEntity<Department> updateDepartment(@PathVariable long id, @RequestBody Department departmentDetails) {
+        Department department = departmentRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Department not found with id: " + id));
+
+        department.setName(departmentDetails.getName());
+        departmentRepository.save(department);\\
 
         return ResponseEntity.ok(department);
     }
