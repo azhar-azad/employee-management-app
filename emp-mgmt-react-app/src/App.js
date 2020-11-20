@@ -8,6 +8,7 @@ import SingleEmployeeComponent from "./components/employee-components/SingleEmpl
 import UpdateEmployeeComponent from "./components/employee-components/UpdateEmployeeComponent";
 import ViewEmployeeComponent from "./components/employee-components/ViewEmployeeComponent";
 import HomeComponent from "./components/HomeComponent";
+import ListDepartmentComponents from "./components/department-components/ListDepartmentComponents";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
             <Route path="/employee/:id" exact component={ SingleEmployeeComponent } />
             <Route path="/view-employee/:id" exact component={ ViewEmployeeComponent } />
             {/*<Route path="/update-employee/:id" exact component={ UpdateEmployeeComponent } />*/}
+            
+            <Route path="/departments" component={ ListDepartmentComponents } />
           </Switch>
         </div>
         

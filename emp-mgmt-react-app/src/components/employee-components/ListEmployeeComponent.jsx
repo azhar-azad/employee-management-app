@@ -87,6 +87,7 @@ class ListEmployeeComponent extends Component {
             </tbody>
           </table>
         </div>
+        <a href="/">Back to Home</a>
       </div>
     );
   }

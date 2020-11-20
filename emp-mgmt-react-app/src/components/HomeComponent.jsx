@@ -17,6 +17,7 @@ class HomeComponent extends Component {
         
         <div>
           <p><a href="/employees">Employee List</a></p>
+          <p><a href="/departments">Department List</a></p>
         </div>
       </div>
     );
