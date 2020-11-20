@@ -38,6 +38,20 @@ class ViewEmployeeComponent extends Component {
               </tr>
             </table>
           </div>
+          <div className="row">
+            <div className="col-md-8">
+            </div>
+            <div className="col-md-4">
+              <div className="row">
+                <form action="/">
+                  <button type="submit" className="btn-primary">Home</button>
+                </form>
+                <form action="/employees">
+                  <button type="submit" className="btn-info">Employee List</button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
